@@ -1,9 +1,11 @@
 # MovieProjectBE
+## Description
 ```
-MovieProject_BackEnd for KIT
+MovieWebProject_BackEnd for KIT
 Java version = 11
 Spring_Boot = 2.7.0
 Swagger = 2.7.0
+DBMS = MySQL
 ```
 
 # API 명세
