@@ -3,6 +3,7 @@ package com.project.movie.controller;
 import com.project.movie.dto.UserDTO;
 import com.project.movie.service.UserService;
 import io.swagger.annotations.ApiOperation;
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,20 @@ public class UserController {
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         UserDTO user = userService.join(userDTO);
         return ResponseEntity.ok().body(user);
+    }
+
+    @ApiOperation(value = "유저 정보 수정", notes = "유저 정보(DTO)와 id(PK)를 입력받아 유저 정보를 수정한다.")
+    @PutMapping("/{user_id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long user_id, @RequestBody UserDTO userDTO) {
+        UserDTO user = userService.updateUser(user_id, userDTO);
+        return ResponseEntity.ok().body(user);
+    }
+
+    @ApiOperation(value = "유저 삭제", notes = "유저의 id(PK)를 입력받아 유저 정보를 삭제한다.")
+    @DeleteMapping("/{user_id}")
+    public ResponseEntity deleteUser(@PathVariable Long user_id) {
+        userService.deleteUser(user_id);
+        return ResponseEntity.ok().body(user_id);
     }
 
     @ApiOperation(value = "전체 유저 조회", notes = "전체 유저의 수와 각 유저정보를 반환한다.")
