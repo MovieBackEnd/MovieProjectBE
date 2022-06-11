@@ -35,6 +35,7 @@ public class ScreenTheaterService {
         ScreenTheater findScreenTheater = screenTheaterRepository.findById(screenTheater_id).get();
         Theater theater = theaterRepository.findById(screenTheaterForm.getTheater_id()).get();
         if (findScreenTheater != null) {
+            findScreenTheater.setScreenTheater_id(screenTheater_id);
             findScreenTheater.setTheater(theater);
             findScreenTheater.setScreenTheaterName(screenTheaterForm.getScreenTheaterName());
         }

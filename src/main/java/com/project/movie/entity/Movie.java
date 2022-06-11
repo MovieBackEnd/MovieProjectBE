@@ -37,10 +37,6 @@ public class Movie {
     private ScreenGrade screenGrade;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "movie_id")
-    List<Reserve> reserve = new ArrayList<>();
-
-    @JsonIgnore
     @OneToMany(mappedBy = "screen_id")
     List<Screen> screen = new ArrayList<>();
 }

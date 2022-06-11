@@ -1,5 +1,6 @@
 package com.project.movie.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class User {
     private Integer age; //나이
     private boolean isAdmin; //관리자 구분
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user_id") //mappedBy 값은 대상이 되는 변수명을 따라 지정
     List<Reserve> reserve = new ArrayList<>();
 
