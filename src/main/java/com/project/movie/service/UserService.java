@@ -29,6 +29,7 @@ public class UserService {
     public UserDTO updateUser(Long user_id, UserDTO userDTO) {
         User findUser = userRepository.findById(user_id).get();
         if (findUser != null) {
+            findUser.setUser_id(user_id);
             findUser.setLoginid(userDTO.getLoginid());
             findUser.setPassword(userDTO.getPassword());
             findUser.setAge(userDTO.getAge());

@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,15 +22,11 @@ public class Reserve {
     @Column(name = "RESERVE_ID")
     private Long reserve_id; //pk
 
-    private Date reserve_date; //예매날짜
+    private LocalDateTime reserve_date; //예매날짜
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private  User user_id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MOVIE_ID")
-    private Movie movie_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SCREEN_ID")

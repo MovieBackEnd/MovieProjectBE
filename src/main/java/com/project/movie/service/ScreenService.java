@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,6 +59,7 @@ public class ScreenService {
             Movie movie = movieRepository.findById(screenForm.getMovieId()).get();
             ScreenTheater screenTheater = screenTheaterRepository.findById(screenForm.getScreenTheaterId()).get();
 
+            findScreen.setScreen_id(screen_id);
             findScreen.setScreenTime(screenForm.getScreenTime());
             findScreen.setMovie(movie);
             findScreen.setScreenTheater(screenTheater);

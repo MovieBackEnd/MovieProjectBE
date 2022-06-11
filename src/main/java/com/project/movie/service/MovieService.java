@@ -31,6 +31,7 @@ public class MovieService {
     public MovieDTO updateMovie(Long movie_id, MovieDTO movieDTO){
         Movie findMovie = movieRepository.findById(movie_id).get();
         if(findMovie != null){
+            findMovie.setMovieId(movie_id);
             findMovie.setMovieName(movieDTO.getMovie_name());
             findMovie.setActor(movieDTO.getActor());
             findMovie.setRuntime(movieDTO.getRuntime());

@@ -28,7 +28,7 @@ public class TheaterService {
     public TheaterDTO updateTheater(Long theater_id, TheaterDTO theaterDTO) {
         Theater findTheater = theaterRepository.findById(theater_id).get();
         if (findTheater != null) {
-            findTheater.setTheater_id(theaterDTO.getTheater_id());
+            findTheater.setTheater_id(theater_id);
             findTheater.setTheaterName(theaterDTO.getTheaterName());
         }
         TheaterDTO updateTheater = new TheaterDTO(theaterRepository.save(findTheater));

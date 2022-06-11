@@ -40,6 +40,6 @@ public class MovieDTO {
         this.screenGrade = movie.getScreenGrade();
     }
     public Movie toEntity(){
-        return new Movie(movie_id,movie_name,actor,runtime,release_date,genre,screenGrade,null,null);
+        return new Movie(movie_id,movie_name,actor,runtime,release_date,genre,screenGrade,null);
     }
 }

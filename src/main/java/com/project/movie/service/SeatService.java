@@ -43,7 +43,7 @@ public class SeatService {
 
             Screen screen = screenRepository.findById(seatForm.getScreenId()).get();
 
-            findSeat.setSeatId(seatForm.getSeat_id());
+            findSeat.setSeatId(seat_id);
             findSeat.setSeatNum(seatForm.getSeat_num());
             findSeat.setReserve(seatForm.isReserve());
         }
