@@ -31,7 +31,7 @@ public class MovieService {
     public MovieDTO updateMovie(Long movie_id, MovieDTO movieDTO){
         Movie findMovie = movieRepository.findById(movie_id).get();
         if(findMovie != null){
-            findMovie.setMovie_name(movieDTO.getMovie_name());
+            findMovie.setMovieName(movieDTO.getMovie_name());
             findMovie.setActor(movieDTO.getActor());
             findMovie.setRuntime(movieDTO.getRuntime());
             findMovie.setRelease_date(movieDTO.getRelease_date());
@@ -58,7 +58,7 @@ public class MovieService {
     public Page<Movie> findAllMovie_PageNation(Pageable pageable){
         Page<Movie> page = movieRepository.findAll(pageable);
         page.stream().map(movie -> {
-            System.out.println(movie.getMovie_name());
+            System.out.println(movie.getMovieName());
             return movie;
         });
         return page;

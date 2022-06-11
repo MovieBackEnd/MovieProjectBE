@@ -1,6 +1,9 @@
 package com.project.movie.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@DynamicUpdate
 @Table(name = "SCREEN_THEATER")
 public class ScreenTheater {
     @Id
@@ -18,9 +22,7 @@ public class ScreenTheater {
     @Column(name = "SCREEN_THEATER_ID")
     private Long screenTheater_id; //pk
 
-    @OneToMany(mappedBy = "screenTheater_id", cascade = CascadeType.ALL)
-    List<Screen> screen = new ArrayList<>();
-
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "THEATER_ID")
     private Theater theater;
@@ -28,4 +30,8 @@ public class ScreenTheater {
     @Enumerated(EnumType.STRING)
     private ScreenTheaterName screenTheaterName;
 
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToMany(mappedBy = "screenTheater", cascade = CascadeType.ALL)
+    List<Screen> screen = new ArrayList<>();
 }
