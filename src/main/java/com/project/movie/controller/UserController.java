@@ -1,9 +1,9 @@
 package com.project.movie.controller;
 
+import com.project.movie.dto.LoginDTO;
 import com.project.movie.dto.UserDTO;
 import com.project.movie.service.UserService;
 import io.swagger.annotations.ApiOperation;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +43,12 @@ public class UserController {
     public ResponseEntity<Result<List<UserDTO>>> findAllUser() {
         List<UserDTO> userDTOList = userService.findAllUser();
         return ResponseEntity.ok().body(new Result<>(userDTOList, userDTOList.size()));
+    }
+
+    @ApiOperation(value = "유저 로그인 생성", notes = "유저 정보를 입력받아 로그인 정보를 생성한다.")
+    @PostMapping("/login")
+    public ResponseEntity<Boolean> loginUser(@RequestBody LoginDTO loginDTO) {
+        Boolean login = userService.loginUser(loginDTO);
+        return ResponseEntity.ok().body(login);
     }
 }

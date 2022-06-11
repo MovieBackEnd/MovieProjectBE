@@ -1,18 +1,14 @@
 package com.project.movie.service;
 
+import com.project.movie.dto.LoginDTO;
 import com.project.movie.dto.UserDTO;
 import com.project.movie.entity.User;
 import com.project.movie.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,8 +29,9 @@ public class UserService {
     public UserDTO updateUser(Long user_id, UserDTO userDTO) {
         User findUser = userRepository.findById(user_id).get();
         if (findUser != null) {
-            findUser.setLogin_id(userDTO.getLogin_id());
+            findUser.setLoginid(userDTO.getLoginid());
             findUser.setPassword(userDTO.getPassword());
+            findUser.setAge(userDTO.getAge());
             findUser.setName(userDTO.getName());
             findUser.setAdmin(userDTO.isAdmin());
         }
@@ -55,4 +52,14 @@ public class UserService {
         return userDTOList;
     }
 
+    @Transactional
+    public Boolean loginUser(LoginDTO loginDTO) {
+        List<User> users = userRepository.findByLoginidAndPassword(loginDTO.getLogin_id(), loginDTO.getPassword());
+        if(users.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 }
