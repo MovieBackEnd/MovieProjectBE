@@ -1,5 +1,6 @@
 package com.project.movie.controller;
 
+import com.project.movie.dto.LoginDTO;
 import com.project.movie.dto.UserDTO;
 import com.project.movie.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -23,10 +24,31 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
+    @ApiOperation(value = "유저 정보 수정", notes = "유저 정보(DTO)와 id(PK)를 입력받아 유저 정보를 수정한다.")
+    @PutMapping("/{user_id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long user_id, @RequestBody UserDTO userDTO) {
+        UserDTO user = userService.updateUser(user_id, userDTO);
+        return ResponseEntity.ok().body(user);
+    }
+
+    @ApiOperation(value = "유저 삭제", notes = "유저의 id(PK)를 입력받아 유저 정보를 삭제한다.")
+    @DeleteMapping("/{user_id}")
+    public ResponseEntity deleteUser(@PathVariable Long user_id) {
+        userService.deleteUser(user_id);
+        return ResponseEntity.ok().body(user_id);
+    }
+
     @ApiOperation(value = "전체 유저 조회", notes = "전체 유저의 수와 각 유저정보를 반환한다.")
     @GetMapping("/all")
     public ResponseEntity<Result<List<UserDTO>>> findAllUser() {
         List<UserDTO> userDTOList = userService.findAllUser();
         return ResponseEntity.ok().body(new Result<>(userDTOList, userDTOList.size()));
+    }
+
+    @ApiOperation(value = "유저 로그인 생성", notes = "유저 정보를 입력받아 로그인 정보를 생성한다.")
+    @PostMapping("/login")
+    public ResponseEntity<Boolean> loginUser(@RequestBody LoginDTO loginDTO) {
+        Boolean login = userService.loginUser(loginDTO);
+        return ResponseEntity.ok().body(login);
     }
 }

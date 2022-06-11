@@ -12,21 +12,23 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
-    private Long id;
+    private Long user_id;
     private String name;
-    private String login_id;
+    private String loginid;
     private String password;
+    private Integer age;
     private boolean isAdmin;
 
     public UserDTO(User user) {
-        this.id = user.getId();
+        this.user_id = user.getUser_id();
         this.name = user.getName();
-        this.login_id = user.getLogin_id();
+        this.loginid = user.getLoginid();
         this.password = user.getPassword();
+        this.age = user.getAge();
         this.isAdmin = user.isAdmin();
     }
 
-    public User toEntity(){
-        return new User(id,name,login_id,password,isAdmin);
+    public User toEntity() {
+        return new User(user_id, name, loginid, password, age, isAdmin,null);
     }
 }
