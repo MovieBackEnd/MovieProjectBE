@@ -20,15 +20,17 @@ public class ReserveDTO {
     private LocalDateTime reserve_date; //예매날짜
     private User user;
     private Screen screen;
+    private Integer price;
 
     public ReserveDTO(Reserve reserve) {
         this.reserve_id = reserve.getReserve_id();
-        this.reserve_date = reserve.getReserve_date();
-        this.user = reserve.getUser_id();
+        this.reserve_date = reserve.getReserveDate();
+        this.user = reserve.getUserId();
         this.screen = reserve.getScreen_id();
+        this.price = reserve.getPrice();
     }
 
     public Reserve toEntity() {
-        return new Reserve(reserve_id, reserve_date, user, screen, null);
+        return new Reserve(reserve_id, reserve_date, user, screen,price, null);
     }
 }

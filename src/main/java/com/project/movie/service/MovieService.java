@@ -1,15 +1,22 @@
 package com.project.movie.service;
 
 import com.project.movie.dto.MovieDTO;
-import com.project.movie.dto.UserDTO;
+import com.project.movie.dto.MovieSearch;
 import com.project.movie.entity.Movie;
+import com.project.movie.entity.QMovie;
 import com.project.movie.repository.MovieRepository;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.AllArgsConstructor;
+import org.eclipse.jdt.internal.compiler.lookup.IQualifiedTypeResolutionListener;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,9 +35,9 @@ public class MovieService {
     }
 
     @Transactional
-    public MovieDTO updateMovie(Long movie_id, MovieDTO movieDTO){
+    public MovieDTO updateMovie(Long movie_id, MovieDTO movieDTO) {
         Movie findMovie = movieRepository.findById(movie_id).get();
-        if(findMovie != null){
+        if (findMovie != null) {
             findMovie.setMovieId(movie_id);
             findMovie.setMovieName(movieDTO.getMovie_name());
             findMovie.setActor(movieDTO.getActor());
@@ -38,13 +45,14 @@ public class MovieService {
             findMovie.setRelease_date(movieDTO.getRelease_date());
             findMovie.setGenre(movieDTO.getGenre());
             findMovie.setScreenGrade(movieDTO.getScreenGrade());
+            findMovie.setUrl(movieDTO.getUrl());
         }
         MovieDTO updateMovie = new MovieDTO(movieRepository.save(findMovie));
         return updateMovie;
     }
 
     @Transactional
-    public void deleteMovie(Long movie_id){
+    public void deleteMovie(Long movie_id) {
         movieRepository.deleteById(movie_id);
     }
 
@@ -56,12 +64,18 @@ public class MovieService {
         return movieDTOList;
     }
 
-    public Page<Movie> findAllMovie_PageNation(Pageable pageable){
+    public Page<Movie> findAllMovie_PageNation(Pageable pageable) {
         Page<Movie> page = movieRepository.findAll(pageable);
         page.stream().map(movie -> {
-            System.out.println(movie.getMovieName());
             return movie;
         });
         return page;
     }
+
+    // 영화제목, 배우
+    public List<Movie> findAllMovie(MovieSearch movieSearch) {
+        return movieRepository.findAllMovie(movieSearch);
+    }
+
+
 }

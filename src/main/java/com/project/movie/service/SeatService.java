@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,4 +65,11 @@ public class SeatService {
         return SeatDTOList;
     }
 
+    public List<Seat> findSeat_Aval(Long screen_id) {
+        Optional<Screen> screen = screenRepository.findById(screen_id);
+        if (screen.isPresent()) {
+            return seatRepository.findByScreenIdAndIsReserve(screen.get(), true);
+        }
+        return null;
+    }
 }

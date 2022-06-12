@@ -32,6 +32,6 @@ public class ScreenDTO {
     }
 
     public Screen toEntity() {
-        return new Screen(screen_id,screenTime,movie,screenTheater,null);
+        return new Screen(screen_id,screenTime,movie,screenTheater,null,null);
     }
 }

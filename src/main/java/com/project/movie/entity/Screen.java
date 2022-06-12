@@ -24,7 +24,6 @@ public class Screen {
 
     private LocalDateTime screenTime;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MOVIE_ID")
     private Movie movie;
@@ -33,6 +32,10 @@ public class Screen {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SCREEN_THEATER_ID")
     private ScreenTheater screenTheater;
+
+    @JsonIgnore
+    @Embedded
+    private FeePolicy feePolicy;
 
     @JsonIgnore
     @OneToMany(mappedBy = "screenId",cascade = CascadeType.ALL)

@@ -36,6 +36,8 @@ public class Movie {
     @Enumerated(EnumType.STRING)
     private ScreenGrade screenGrade;
 
+    private String url;
+
     @JsonIgnore
     @OneToMany(mappedBy = "screen_id")
     List<Screen> screen = new ArrayList<>();

@@ -6,6 +6,7 @@ import com.project.movie.service.ReviewService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,14 +20,14 @@ public class ReviewController {
 
     @ApiOperation(value = "영화후기 생성", notes = "영화후기 정보를 입력받아 리뷰를 생성한다.")
     @PostMapping("/create")
-    public ResponseEntity<ReviewDTO> createReview(@RequestBody ReviewForm reviewForm) {
+    public ResponseEntity<ReviewDTO> createReview(@Validated @RequestBody ReviewForm reviewForm) {
         ReviewDTO review = reviewService.join(reviewForm);
         return ResponseEntity.ok().body(review);
     }
 
     @ApiOperation(value = "영화후기 수정", notes = "영화후기(DTO)와 id(PK)를 입력받아 영화리뷰를 수정한다.")
     @PutMapping("/{review_id}")
-    public ResponseEntity<ReviewDTO> updateReview(@PathVariable Long review_id, @RequestBody ReviewForm reviewForm) {
+    public ResponseEntity<ReviewDTO> updateReview(@PathVariable Long review_id,@RequestBody ReviewForm reviewForm) {
         ReviewDTO review = reviewService.updateReview(review_id, reviewForm);
         return ResponseEntity.ok().body(review);
     }
