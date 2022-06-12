@@ -1,5 +1,6 @@
 package com.project.movie.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -22,16 +23,20 @@ public class Reserve {
     @Column(name = "RESERVE_ID")
     private Long reserve_id; //pk
 
-    private LocalDateTime reserve_date; //예매날짜
+    private LocalDateTime reserveDate; //예매날짜
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    private  User user_id;
+    private  User userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SCREEN_ID")
     private Screen screen_id;
 
+    private Integer price;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "review_id")
     List<Review> review = new ArrayList<>();
 

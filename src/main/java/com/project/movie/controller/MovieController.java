@@ -1,6 +1,7 @@
 package com.project.movie.controller;
 
 import com.project.movie.dto.MovieDTO;
+import com.project.movie.dto.MovieSearch;
 import com.project.movie.entity.Movie;
 import com.project.movie.service.MovieService;
 import io.swagger.annotations.ApiOperation;
@@ -59,4 +60,12 @@ public class MovieController {
         Integer size = page.getSize();
         return ResponseEntity.ok().body(new PaginationResult<>(movieList, totalPages, totalElements, size));
     }
+
+    @ApiOperation(value = "영화검색(영화 제목, 배우)", notes = "영화제목 또는 배우조건으로 영화를 검색한다.")
+    @PostMapping("/search")
+    public ResponseEntity<Result<List<Movie>>> findAllMovie(@RequestBody MovieSearch movieSearch){
+        List<Movie> movieList = movieService.findAllMovie(movieSearch);
+        return ResponseEntity.ok().body(new Result<>(movieList,movieList.size()));
+    }
+
 }

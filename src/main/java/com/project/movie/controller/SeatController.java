@@ -2,6 +2,7 @@ package com.project.movie.controller;
 
 import com.project.movie.dto.SeatDTO;
 import com.project.movie.dto.SeatForm;
+import com.project.movie.entity.Seat;
 import com.project.movie.service.SeatService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,12 @@ public class SeatController {
     public ResponseEntity<Result<List<SeatDTO>>> findAllSeat() {
         List<SeatDTO> seatDTOList = seatService.findAllSeat();
         return ResponseEntity.ok().body(new Result<>(seatDTOList, seatDTOList.size()));
+    }
+
+    @ApiOperation(value = "잔여 좌석 조회", notes = "상영관id(PK)를 입력받아 해당 상영시간표의 잔여좌석을 조회한다.")
+    @GetMapping("/{screen_id}/aval")
+    public ResponseEntity<Result<List<Seat>>> findSeat_aval(@PathVariable Long screen_id){
+        List<Seat> seatList = seatService.findSeat_Aval(screen_id);
+        return ResponseEntity.ok().body(new Result<>(seatList,seatList.size()));
     }
 }

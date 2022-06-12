@@ -30,7 +30,7 @@ public class User {
     private boolean isAdmin; //관리자 구분
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user_id") //mappedBy 값은 대상이 되는 변수명을 따라 지정
+    @OneToMany(mappedBy = "userId") //mappedBy 값은 대상이 되는 변수명을 따라 지정
     List<Reserve> reserve = new ArrayList<>();
 
 }

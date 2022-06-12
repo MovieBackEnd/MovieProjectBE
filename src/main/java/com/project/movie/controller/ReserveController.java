@@ -3,6 +3,7 @@ package com.project.movie.controller;
 import com.project.movie.dto.ReserveDTO;
 import com.project.movie.dto.ReserveForm;
 import com.project.movie.dto.ReviewDTO;
+import com.project.movie.entity.Reserve;
 import com.project.movie.service.ReserveService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +46,12 @@ public class ReserveController {
     public ResponseEntity<Result<List<ReserveDTO>>> findAllReserve() {
         List<ReserveDTO> reserveDTOList = reserveService.findAllReserve();
         return ResponseEntity.ok().body(new Result<>(reserveDTOList, reserveDTOList.size()));
+    }
+
+    @ApiOperation(value = "유저 예매 내역 조회", notes = "유저의 id(PK)를 입력받아 유저의 예매 내역을 최신순으로 조회한다.")
+    @GetMapping("{user_id}/reservation")
+    public ResponseEntity<Result<List<Reserve>>> findByUserReservation(@PathVariable Long user_id) {
+        List<Reserve> reserveList = reserveService.findUserReservation(user_id);
+        return ResponseEntity.ok().body(new Result<>(reserveList, reserveList.size()));
     }
 }

@@ -6,6 +6,8 @@ import com.project.movie.dto.ReviewDTO;
 import com.project.movie.entity.*;
 import com.project.movie.repository.*;
 import lombok.AllArgsConstructor;
+import org.apache.catalina.core.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,23 +24,30 @@ public class ReserveService {
     private final UserRepository userRepository;
     private final ScreenRepository screenRepository;
     private final SeatRepository seatRepository;
+    private final DiscountService discountService;
 
     @Transactional
     public ReserveDTO join(ReserveForm reserveForm) {
         User user = userRepository.findById(reserveForm.getUser_id()).get();
         Screen screen = screenRepository.findById(reserveForm.getScreen_id()).get();
+        Integer[] seat_arr = reserveForm.getSeat_arr();
+        List<Seat> seatList = screen.getSeat();
+
 
         Reserve reserve = new Reserve();
         reserve.setReserve_id(reserveForm.getReserve_id());
-        reserve.setUser_id(user);
+        reserve.setUserId(user);
         reserve.setScreen_id(screen);
-        reserve.setReserve_date(LocalDateTime.now());
+        reserve.setReserveDate(LocalDateTime.now());
+        if(screen.getFeePolicy().getFeePolicyStatus() == FeePolicyStatus.NONE){
+            reserve.setPrice(seat_arr.length * discountService.getOrigin_price());
+        }else{
+            reserve.setPrice(discountService.getFee(seat_arr.length,screen.getFeePolicy()));
+        }
 
-        Integer[] seat_arr = reserveForm.getSeat_arr();
-        List<Seat> seatList = screen.getSeat();
         seatList.forEach(seat -> {
-            for (int i=0; i<seat_arr.length; i++){
-                if(seat_arr[i] == seat.getSeatNum()) {
+            for (int i = 0; i < seat_arr.length; i++) {
+                if (seat_arr[i] == seat.getSeatNum()) {
                     seat.setReserve(false);
                     seatRepository.save(seat);
                 }
@@ -55,11 +64,23 @@ public class ReserveService {
         User findUser = userRepository.findById(reserveForm.getUser_id()).get();
         Screen findScreen = screenRepository.findById(reserveForm.getScreen_id()).get();
 
+
         if (findReserve != null) {
             findReserve.setReserve_id(reserve_id);
-            findReserve.setUser_id(findUser);
+            findReserve.setUserId(findUser);
             findReserve.setScreen_id(findScreen);
-            findReserve.setReserve_date(LocalDateTime.now());
+            findReserve.setReserveDate(LocalDateTime.now());
+
+            Integer[] seat_arr = reserveForm.getSeat_arr();
+            List<Seat> seatList = findScreen.getSeat();
+            seatList.forEach(seat -> {
+                for (int i = 0; i < seat_arr.length; i++) {
+                    if (seat_arr[i] == seat.getSeatNum()) {
+                        seat.setReserve(false);
+                        seatRepository.save(seat);
+                    }
+                }
+            });
         }
 
         ReserveDTO updateReserve = new ReserveDTO(reserveRepository.save(findReserve));
@@ -77,6 +98,12 @@ public class ReserveService {
             return new ReserveDTO(reserve);
         }).collect(Collectors.toList());
         return ReserveDTOList;
+    }
+
+    public List<Reserve> findUserReservation(Long user_id) {
+        User user = userRepository.findById(user_id).get();
+        List<Reserve> reserveList = reserveRepository.findByUserIdOrderByReserveDateAsc(user);
+        return reserveList;
     }
 
 }

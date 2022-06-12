@@ -51,4 +51,5 @@ public class UserController {
         Boolean login = userService.loginUser(loginDTO);
         return ResponseEntity.ok().body(login);
     }
+
 }

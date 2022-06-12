@@ -30,6 +30,8 @@ public class MovieDTO {
     @NotNull
     private ScreenGrade screenGrade;
 
+    private  String url;
+
     public MovieDTO(Movie movie){
         this.movie_id = movie.getMovieId();
         this.movie_name = movie.getMovieName();
@@ -38,8 +40,9 @@ public class MovieDTO {
         this.release_date = movie.getRelease_date();
         this.genre = movie.getGenre();
         this.screenGrade = movie.getScreenGrade();
+        this.url = movie.getUrl();
     }
     public Movie toEntity(){
-        return new Movie(movie_id,movie_name,actor,runtime,release_date,genre,screenGrade,null);
+        return new Movie(movie_id,movie_name,actor,runtime,release_date,genre,screenGrade,url,null);
     }
 }

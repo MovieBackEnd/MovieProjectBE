@@ -1,11 +1,9 @@
 package com.project.movie.service;
 
+import com.project.movie.dto.FeePolicyForm;
 import com.project.movie.dto.ScreenDTO;
 import com.project.movie.dto.ScreenForm;
-import com.project.movie.entity.Movie;
-import com.project.movie.entity.Screen;
-import com.project.movie.entity.ScreenTheater;
-import com.project.movie.entity.Seat;
+import com.project.movie.entity.*;
 import com.project.movie.repository.MovieRepository;
 import com.project.movie.repository.ScreenRepository;
 import com.project.movie.repository.ScreenTheaterRepository;
@@ -38,8 +36,9 @@ public class ScreenService {
         screen.setScreenTime(screenForm.getScreenTime());
         screen.setMovie(movie);
         screen.setScreenTheater(screenTheater);
+        screen.setFeePolicy(new FeePolicy());
 
-        for(int i=1; i<9; i++){
+        for (int i = 1; i < 21; i++) {
             Seat seat = new Seat();
             seat.setSeatNum(i);
             seat.setReserve(true);
@@ -84,5 +83,18 @@ public class ScreenService {
         }).collect(Collectors.toList());
 
         return screenDTOList;
+    }
+
+    @Transactional
+    public ScreenDTO setDiscountPolicy(Long screen_id, FeePolicyForm feePolicyForm) {
+        Screen findScreen = screenRepository.findById(screen_id).get();
+        if (findScreen != null) {
+            System.out.println(feePolicyForm.getFeePolicyStatus()+""+feePolicyForm.getRegular_percent()+""+feePolicyForm.getFlatRate());
+            FeePolicy feePolicy = new FeePolicy(feePolicyForm.getFeePolicyStatus(), feePolicyForm.getRegular_percent(), feePolicyForm.getFlatRate());
+
+            findScreen.setFeePolicy(new FeePolicy(feePolicyForm.getFeePolicyStatus(), feePolicyForm.getRegular_percent(), feePolicyForm.getFlatRate()));
+        }
+        ScreenDTO screenDTO = new ScreenDTO(screenRepository.save(findScreen));
+        return screenDTO;
     }
 }
