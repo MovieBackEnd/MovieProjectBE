@@ -35,6 +35,7 @@ public class Reserve {
     private Screen screen_id;
 
     private Integer price;
+    private String seats;
 
     @JsonIgnore
     @OneToMany(mappedBy = "review_id")

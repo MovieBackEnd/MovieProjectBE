@@ -22,6 +22,8 @@ public class QScreen extends EntityPathBase<Screen> {
 
     public static final QScreen screen = new QScreen("screen");
 
+    public final QFeePolicy feePolicy;
+
     public final QMovie movie;
 
     public final NumberPath<Long> screen_id = createNumber("screen_id", Long.class);
@@ -50,6 +52,7 @@ public class QScreen extends EntityPathBase<Screen> {
 
     public QScreen(Class<? extends Screen> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.feePolicy = inits.isInitialized("feePolicy") ? new QFeePolicy(forProperty("feePolicy")) : null;
         this.movie = inits.isInitialized("movie") ? new QMovie(forProperty("movie")) : null;
         this.screenTheater = inits.isInitialized("screenTheater") ? new QScreenTheater(forProperty("screenTheater"), inits.get("screenTheater")) : null;
     }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,8 @@ public class ReserveService {
         Screen screen = screenRepository.findById(reserveForm.getScreen_id()).get();
         Integer[] seat_arr = reserveForm.getSeat_arr();
         List<Seat> seatList = screen.getSeat();
+        String arrayToString = Arrays.toString(seat_arr);
+        arrayToString = arrayToString.substring(1,arrayToString.length()-1).trim();
 
 
         Reserve reserve = new Reserve();
@@ -44,6 +47,7 @@ public class ReserveService {
         }else{
             reserve.setPrice(discountService.getFee(seat_arr.length,screen.getFeePolicy()));
         }
+        reserve.setSeats(arrayToString);
 
         seatList.forEach(seat -> {
             for (int i = 0; i < seat_arr.length; i++) {

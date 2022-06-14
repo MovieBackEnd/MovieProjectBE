@@ -2,6 +2,7 @@ package com.project.movie.controller;
 
 import com.project.movie.dto.SeatDTO;
 import com.project.movie.dto.SeatForm;
+import com.project.movie.dto.SeatResponseDTO;
 import com.project.movie.entity.Seat;
 import com.project.movie.service.SeatService;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +38,13 @@ public class SeatController {
     public ResponseEntity deleteSeat(@PathVariable Long seat_id) {
         seatService.deleteSeat(seat_id);
         return ResponseEntity.ok().body(seat_id);
+    }
+
+    @ApiOperation(value = "상영관별 좌석 조회", notes = "상영관 id(PK)를 입력받아 좌석리스트를 조회한다.")
+    @GetMapping("/screen/{screen_id}/seats")
+    public ResponseEntity<Result<List<SeatResponseDTO>>> findSeatsByScreenId(@PathVariable Long screen_id){
+        List<SeatResponseDTO> seatList = seatService.findSeatsByScreenId(screen_id);
+        return ResponseEntity.ok().body(new Result<>(seatList, seatList.size()));
     }
 
     @ApiOperation(value = "전체 좌석 조회", notes = "전체 좌석 정보를 반환한다.")

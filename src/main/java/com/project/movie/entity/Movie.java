@@ -38,6 +38,10 @@ public class Movie {
 
     private String url;
 
+    private Double ticketRating;
+    private Double reviewRating;
+    private String director;
+
     @JsonIgnore
     @OneToMany(mappedBy = "screen_id")
     List<Screen> screen = new ArrayList<>();

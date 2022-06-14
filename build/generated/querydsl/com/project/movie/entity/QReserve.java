@@ -24,15 +24,15 @@ public class QReserve extends EntityPathBase<Reserve> {
 
     public final NumberPath<Integer> price = createNumber("price", Integer.class);
 
-    public final DateTimePath<java.time.LocalDateTime> reserve_date = createDateTime("reserve_date", java.time.LocalDateTime.class);
-
     public final NumberPath<Long> reserve_id = createNumber("reserve_id", Long.class);
+
+    public final DateTimePath<java.time.LocalDateTime> reserveDate = createDateTime("reserveDate", java.time.LocalDateTime.class);
 
     public final ListPath<Review, QReview> review = this.<Review, QReview>createList("review", Review.class, QReview.class, PathInits.DIRECT2);
 
     public final QScreen screen_id;
 
-    public final QUser user_id;
+    public final QUser userId;
 
     public QReserve(String variable) {
         this(Reserve.class, forVariable(variable), INITS);
@@ -53,7 +53,7 @@ public class QReserve extends EntityPathBase<Reserve> {
     public QReserve(Class<? extends Reserve> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.screen_id = inits.isInitialized("screen_id") ? new QScreen(forProperty("screen_id"), inits.get("screen_id")) : null;
-        this.user_id = inits.isInitialized("user_id") ? new QUser(forProperty("user_id")) : null;
+        this.userId = inits.isInitialized("userId") ? new QUser(forProperty("userId")) : null;
     }
 
 }

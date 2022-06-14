@@ -10,4 +10,7 @@ import java.util.List;
 
 public interface MovieRepository extends JpaRepository<Movie, Long>, MovieRepositoryCustom {
     Page<Movie> findAll(Pageable pageable);
+    List<Movie> findByMovieNameContainingOrActorContaining(String keyword, String keyword2);
+    List<Movie> findAllByOrderByTicketRatingDesc();
+    List<Movie> findAllByOrderByReviewRatingDesc();
 }

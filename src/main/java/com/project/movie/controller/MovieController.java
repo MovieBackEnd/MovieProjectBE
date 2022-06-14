@@ -41,6 +41,13 @@ public class MovieController {
         movieService.deleteMovie(movie_id);
     }
 
+    @ApiOperation(value = "영화 상세 정보 조회", notes = "영화id(PK)를 입력받아 영화 정보를 조회한다. ")
+    @GetMapping("/{movie_id}/detail")
+    public ResponseEntity<MovieDTO> findMovieDetail(@PathVariable Long movie_id){
+        MovieDTO movie = movieService.findByMovieIdDetail(movie_id);
+        return ResponseEntity.ok().body(movie);
+    }
+
     @ApiOperation(value = "전체 영화 정보 조회(페이지네이션 x)", notes = "전체 영화 정보를 조회한다.")
     @GetMapping("/all")
     public ResponseEntity<Result<List<MovieDTO>>> findAllMovie() {
@@ -68,4 +75,24 @@ public class MovieController {
         return ResponseEntity.ok().body(new Result<>(movieList,movieList.size()));
     }
 
+    @ApiOperation(value = "영화검색(영화 제목, 배우)2", notes = "키워드로 영화를 검색한다.")
+    @GetMapping("/{keyword}/search")
+    public ResponseEntity<Result<List<Movie>>> findAllMovie2(@PathVariable String keyword){
+        List<Movie> movieList = movieService.findAllMovie2(keyword);
+        return ResponseEntity.ok().body(new Result<>(movieList,movieList.size()));
+    }
+
+    @ApiOperation(value = "예매율순 영화 전체 조회", notes = "예매율 순으로 전체 영화를 조회한다.")
+    @GetMapping("/ticket")
+    public ResponseEntity<Result<List<Movie>>> findAllMovieOrderByTicketRating(){
+        List<Movie> movieList = movieService.findAllMovieOrderByTicketRating();
+        return ResponseEntity.ok().body(new Result<>(movieList,movieList.size()));
+    }
+
+    @ApiOperation(value = "평점순 영화 전체 조회", notes = "평점율 순으로 전체 영화를 조회한다.")
+    @GetMapping("/review")
+    public ResponseEntity<Result<List<Movie>>> findAllMovieOrderByReviewRating(){
+        List<Movie> movieList = movieService.findAllMovieOrderByReviewRating();
+        return ResponseEntity.ok().body(new Result<>(movieList,movieList.size()));
+    }
 }
