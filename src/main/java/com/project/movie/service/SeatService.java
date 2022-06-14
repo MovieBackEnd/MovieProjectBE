@@ -3,6 +3,8 @@ package com.project.movie.service;
 
 import com.project.movie.dto.SeatDTO;
 import com.project.movie.dto.SeatForm;
+import com.project.movie.dto.SeatResponseDTO;
+import com.project.movie.entity.FeePolicyStatus;
 import com.project.movie.entity.Screen;
 import com.project.movie.entity.Seat;
 import com.project.movie.repository.ScreenRepository;
@@ -22,6 +24,7 @@ public class SeatService {
 
     private final SeatRepository seatRepository;
     private final ScreenRepository screenRepository;
+    private final DiscountService discountService;
 
     @Transactional
     public SeatDTO join(SeatForm seatForm) {
@@ -50,6 +53,30 @@ public class SeatService {
         }
         SeatDTO updateSeat = new SeatDTO(seatRepository.save(findSeat));
         return updateSeat;
+    }
+
+    public List<SeatResponseDTO> findSeatsByScreenId(Long screen_id) {
+        Screen screen = screenRepository.findById(screen_id).get();
+        Integer seatPrice = 0;
+
+        if(screen.getFeePolicy().getFeePolicyStatus() ==FeePolicyStatus.REGULAR){
+            double regular_percent = screen.getFeePolicy().getRegular();
+            double percent = regular_percent * 0.01;
+            double sale = discountService.getOrigin_price() * percent;
+            seatPrice = discountService.getOrigin_price() - (int)sale;
+        }else if(screen.getFeePolicy().getFeePolicyStatus() == FeePolicyStatus.FLAT_RATE){
+            double discount = screen.getFeePolicy().getFlatRate();
+            seatPrice = discountService.getOrigin_price() - (int)discount;
+        }else{
+            seatPrice = discountService.getOrigin_price();
+        }
+
+        final int finalSeatPrice = seatPrice;
+        List<SeatResponseDTO> seatList = seatRepository.findByScreenId(screen).stream().map((seat) -> {
+            return new SeatResponseDTO(seat, finalSeatPrice);
+        }).collect(Collectors.toList());
+
+        return seatList;
     }
 
     @Transactional

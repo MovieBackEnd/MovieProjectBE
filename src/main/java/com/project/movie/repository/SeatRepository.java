@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface SeatRepository extends JpaRepository<Seat, Long> {
     List<Seat> findByScreenIdAndIsReserve(Screen screen, boolean isReserve);
+    List<Seat> findByScreenId(Screen screen);
 }

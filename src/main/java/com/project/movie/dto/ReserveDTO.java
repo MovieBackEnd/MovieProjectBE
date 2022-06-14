@@ -21,6 +21,7 @@ public class ReserveDTO {
     private User user;
     private Screen screen;
     private Integer price;
+    private String seats;
 
     public ReserveDTO(Reserve reserve) {
         this.reserve_id = reserve.getReserve_id();
@@ -28,9 +29,10 @@ public class ReserveDTO {
         this.user = reserve.getUserId();
         this.screen = reserve.getScreen_id();
         this.price = reserve.getPrice();
+        this.seats = reserve.getSeats();
     }
 
     public Reserve toEntity() {
-        return new Reserve(reserve_id, reserve_date, user, screen,price, null);
+        return new Reserve(reserve_id, reserve_date, user, screen,price,seats, null);
     }
 }

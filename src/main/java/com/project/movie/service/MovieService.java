@@ -46,9 +46,16 @@ public class MovieService {
             findMovie.setGenre(movieDTO.getGenre());
             findMovie.setScreenGrade(movieDTO.getScreenGrade());
             findMovie.setUrl(movieDTO.getUrl());
+            findMovie.setTicketRating(movieDTO.getTicketRating());
+            findMovie.setReviewRating(movieDTO.getReviewRating());
+            findMovie.setDirector(movieDTO.getDirector());
         }
         MovieDTO updateMovie = new MovieDTO(movieRepository.save(findMovie));
         return updateMovie;
+    }
+
+    public MovieDTO findByMovieIdDetail(Long movie_id) {
+        return new MovieDTO(movieRepository.findById(movie_id).get());
     }
 
     @Transactional
@@ -77,5 +84,17 @@ public class MovieService {
         return movieRepository.findAllMovie(movieSearch);
     }
 
+    public List<Movie> findAllMovie2(String keyword) {
+        return movieRepository.findByMovieNameContainingOrActorContaining(keyword, keyword);
+    }
+
+    // 예매율순
+    public List<Movie> findAllMovieOrderByTicketRating() {
+        return movieRepository.findAllByOrderByTicketRatingDesc();
+    }
+
+    public List<Movie> findAllMovieOrderByReviewRating() {
+        return movieRepository.findAllByOrderByReviewRatingDesc();
+    }
 
 }

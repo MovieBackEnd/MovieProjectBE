@@ -32,6 +32,10 @@ public class MovieDTO {
 
     private  String url;
 
+    private Double ticketRating;
+    private Double reviewRating;
+    private String director;
+
     public MovieDTO(Movie movie){
         this.movie_id = movie.getMovieId();
         this.movie_name = movie.getMovieName();
@@ -41,8 +45,11 @@ public class MovieDTO {
         this.genre = movie.getGenre();
         this.screenGrade = movie.getScreenGrade();
         this.url = movie.getUrl();
+        this.ticketRating = movie.getTicketRating();
+        this.reviewRating = movie.getReviewRating();
+        this.director = movie.getDirector();
     }
     public Movie toEntity(){
-        return new Movie(movie_id,movie_name,actor,runtime,release_date,genre,screenGrade,url,null);
+        return new Movie(movie_id,movie_name,actor,runtime,release_date,genre,screenGrade,url,ticketRating,reviewRating,director,null);
     }
 }

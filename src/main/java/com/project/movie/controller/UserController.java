@@ -1,6 +1,7 @@
 package com.project.movie.controller;
 
 import com.project.movie.dto.LoginDTO;
+import com.project.movie.dto.LoginResponseDTO;
 import com.project.movie.dto.UserDTO;
 import com.project.movie.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -47,9 +48,16 @@ public class UserController {
 
     @ApiOperation(value = "유저 로그인 생성", notes = "유저 정보를 입력받아 로그인 정보를 생성한다.")
     @PostMapping("/login")
-    public ResponseEntity<Boolean> loginUser(@RequestBody LoginDTO loginDTO) {
-        Boolean login = userService.loginUser(loginDTO);
-        return ResponseEntity.ok().body(login);
+    public ResponseEntity<LoginResponseDTO> loginUser(@RequestBody LoginDTO loginDTO) {
+        LoginResponseDTO l = userService.loginUser(loginDTO);
+        return ResponseEntity.ok().body(l);
+    }
+
+    @ApiOperation(value = "유저 상세정보 조회", notes = "유저id(PK)를 입력받아 유저를 조회한다.")
+    @GetMapping("/{user_id}/detail")
+    public ResponseEntity<UserDTO> findByUserID(@PathVariable Long user_id) {
+        UserDTO userDTO = userService.findByUserId(user_id);
+        return ResponseEntity.ok().body(userDTO);
     }
 
 }

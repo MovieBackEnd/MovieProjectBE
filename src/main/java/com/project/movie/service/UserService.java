@@ -1,6 +1,7 @@
 package com.project.movie.service;
 
 import com.project.movie.dto.LoginDTO;
+import com.project.movie.dto.LoginResponseDTO;
 import com.project.movie.dto.UserDTO;
 import com.project.movie.entity.User;
 import com.project.movie.repository.UserRepository;
@@ -54,13 +55,25 @@ public class UserService {
     }
 
     @Transactional
-    public Boolean loginUser(LoginDTO loginDTO) {
+    public LoginResponseDTO loginUser(LoginDTO loginDTO) {
         List<User> users = userRepository.findByLoginidAndPassword(loginDTO.getLogin_id(), loginDTO.getPassword());
+        LoginResponseDTO l = new LoginResponseDTO();
         if(users.size() > 0) {
-            return true;
+            User u = users.get(0);
+            l.setLoginid(u.getLoginid());
+            l.setUser_id(u.getUser_id());
+            l.setAge(u.getAge());
+            l.setPassword(u.getPassword());
+            l.setAdmin(u.isAdmin());
+            l.setSuccess(true);
+            return l;
         } else {
-            return false;
+            return l;
         }
+    }
 
+    public UserDTO findByUserId(Long user_id) {
+        UserDTO user = new UserDTO(userRepository.findById(user_id).get());
+        return user;
     }
 }
