@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// 영화서비스
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/movie")
